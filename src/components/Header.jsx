@@ -25,7 +25,7 @@ const Header = () => {
       <nav className="navbar navbar-expand-lg">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            <img src="/assets/image/logo.png" alt="Codex Tech Solutions Logo" width="150" />
+            <img src="/assets/image/logo.png" alt="Abhinova Institute" className="logo-img" />
           </Link>
           <button
             className="navbar-toggler"
@@ -48,18 +48,19 @@ const Header = () => {
               </li>
               <li className="nav-item dropdown">
                 <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Services
+                    Courses
                 </Link>
                 <ul className="dropdown-menu">
-                  <li><Link className="dropdown-item" to="/web-development"><i className="fas fa-code"></i> Web Development</Link></li>
-                  <li><Link className="dropdown-item" to="/creative-design"><i className="fas fa-desktop"></i> Website Design</Link></li>
-                  <li><Link className="dropdown-item" to="/wordpress-development"><i className="fab fa-wordpress"></i> WordPress Website Development</Link></li>
-                  <li><Link className="dropdown-item" to="/digital-marketing"><i className="fas fa-bullhorn"></i> Digital Marketing</Link></li>
-                  <li><Link className="dropdown-item" to="/creative-design"><i className="fas fa-paint-brush"></i> Creative Design</Link></li>
+                    <li><Link className="dropdown-item" to="/courses"><i className="fas fa-flask"></i> All Courses</Link></li>
+                    <li><Link className="dropdown-item" to="/course/bsc"><i className="fas fa-flask"></i> BSC</Link></li>
+                    <li><Link className="dropdown-item" to="/course/bca"><i className="fas fa-laptop-code"></i> BCA</Link></li>
+                    <li><Link className="dropdown-item" to="/course/ba"><i className="fas fa-book-open"></i> BA</Link></li>
+                    <li><Link className="dropdown-item" to="/course/mba"><i className="fas fa-chart-line"></i> MBA</Link></li>
+                    <li><Link className="dropdown-item" to="/course/mca"><i className="fas fa-microchip"></i> MCA</Link></li>
                 </ul>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/industries">Industries</Link>
+                  <Link className="nav-link" to="/events">Events</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/why-choose-us">Why Us</Link>
@@ -70,7 +71,7 @@ const Header = () => {
             </ul>
             {isAuthenticated ? (
               <>
-                <Link to="/dashboard" className="cta-btn">Dashboard</Link>
+                <Link to="/admin" className="cta-btn">Dashboard</Link>
                 <button onClick={handleLogout} className="cta-btn ms-2">Logout</button>
               </>
             ) : (

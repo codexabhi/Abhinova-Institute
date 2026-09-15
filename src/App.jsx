@@ -3,17 +3,18 @@ import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import WebDevelopment from './pages/WebDevelopment';
-import CreativeDesign from './pages/CreativeDesign';
-import DigitalMarketing from './pages/DigitalMarketing';
-import WordPressDevelopment from './pages/WordPressDevelopment';
-import Industries from './pages/Industries';
 import WhyChooseUs from './pages/WhyChooseUs';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Dashboard from './pages/Dashboard';
 import Portfolio from './pages/Portfolio';
 import AdminDashboard from './pages/AdminDashboard';
+import Events from './pages/Events';
+import Courses from './pages/Courses';
+import BSC from './pages/BSC';
+import BCA from './pages/BCA';
+import BA from './pages/BA';
+import MBA from './pages/MBA';
+import MCA from './pages/MCA';
 
 function App() {
   return (
@@ -23,15 +24,17 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/web-development" element={<WebDevelopment />} />
-          <Route path="/creative-design" element={<CreativeDesign />} />
-          <Route path="/digital-marketing" element={<DigitalMarketing />} />
-          <Route path="/wordpress-development" element={<WordPressDevelopment />} />
-          <Route path="/industries" element={<Industries />} />
+          <Route path="/industries" element={<Events />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/course/bsc" element={<BSC />} />
+          <Route path="/course/bca" element={<BCA />} />
+          <Route path="/course/ba" element={<BA />} />
+          <Route path="/course/mba" element={<MBA />} />
+          <Route path="/course/mca" element={<MCA />} />
           <Route path="/why-choose-us" element={<WhyChooseUs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/portfolio/edit/:id" element={<Portfolio />} />
           <Route path="/admin" element={<AdminDashboard />} />

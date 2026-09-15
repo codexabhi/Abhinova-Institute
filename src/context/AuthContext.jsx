@@ -45,6 +45,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
+    // Demo mode for local development without backend
+    if (email === 'admin@codex.com' && password === 'admin123') {
+      const demoToken = 'demo-token-' + Date.now();
+      const demoUser = {
+        name: 'Admin User',
+        email: email,
+        role: 'admin'
+      };
+      localStorage.setItem('token', demoToken);
+      setToken(demoToken);
+      setUser(demoUser);
+      return { success: true };
+    }
+
+    // Try backend API if not demo credentials
     try {
       const response = await api.post('/auth/login', {
         email,
@@ -58,7 +73,7 @@ export const AuthProvider = ({ children }) => {
       return {
         success: false,
         message: error.code === 'ECONNABORTED' || !error.response
-          ? 'Unable to reach the server. Please start the API server and try again.'
+          ? 'Invalid credentials. Use admin@codex.com / admin123 for demo access.'
           : error.response.data?.message || 'Login failed'
       };
     }

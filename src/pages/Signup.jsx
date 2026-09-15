@@ -32,7 +32,7 @@ const Signup = () => {
     try {
       const result = await signup(formData.name, formData.email, formData.password);
       if (result.success) {
-        navigate('/dashboard');
+        navigate('/admin');
       } else {
         setError(result.message);
       }

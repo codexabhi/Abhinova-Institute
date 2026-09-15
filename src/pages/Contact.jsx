@@ -4,148 +4,67 @@ import Footer from '../components/Footer';
 import axios from 'axios';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    service: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', service: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setSubmitting(true);
     setMessage('');
-    
     try {
       await axios.post('http://localhost:5000/api/contact', formData);
-      setMessage('Thank you for your inquiry! We will get back to you soon.');
+      setMessage('Thank you. Our admissions team will get back to you soon.');
       setFormData({ name: '', email: '', service: '', message: '' });
-    } catch (error) {
-      setMessage('Error submitting form. Please try again.');
+    } catch {
+      setMessage('We could not send your message. Please email admissions@abhinovainstitute.edu.');
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const handleChange = (event) => setFormData({ ...formData, [event.target.name]: event.target.value });
 
   return (
     <>
       <Header />
-      
-      {/* Hero Section */}
-      <section className="inner-hero">
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1>Start Your <span>Project</span></h1>
-            <p>Let's discuss how we can help your business grow with our digital solutions</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="py-5">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6">
-              <div className="unified-card">
-                <div className="">
-                  <h2>Send Us a Message</h2>
-                </div>
-                <form className="contact-form" onSubmit={handleSubmit}>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
-                    placeholder="Enter Name*" 
-                    required 
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
-                  <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    placeholder="Enter Email*" 
-                    required 
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                  <input 
-                    type="text" 
-                    id="service" 
-                    name="service" 
-                    placeholder="Enter your requirement"
-                    value={formData.service}
-                    onChange={handleChange}
-                  />
-                  <textarea 
-                    id="message" 
-                    name="message" 
-                    rows="5" 
-                    placeholder="Describe your project requirements and goals" 
-                    required
-                    value={formData.message}
-                    onChange={handleChange}
-                  ></textarea>
-                  <button type="submit" className="submit-btn" disabled={submitting}>
-                    {submitting ? 'Submitting...' : 'Submit Inquiry'}
-                  </button>
-                  {message && (
-                    <div className={`alert ${message.includes('Error') ? 'alert-danger' : 'alert-success'} mt-3`} role="alert">
-                      {message}
-                    </div>
-                  )}
-                </form>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="unified-card">
-                <div className="contact-info">
-                  <h3>Reach Out Directly</h3>
-                  <div className="info-item">
-                    <div className="info-icon">
-                      <i className="fas fa-envelope"></i>
-                    </div>
-                    <div className="info-text">
-                      <h4>Email</h4>
-                      <p>hello@codextechsolutions.com</p>
-                    </div>
-                  </div>
-                  <div className="info-item">
-                    <div className="info-icon">
-                      <i className="fas fa-phone"></i>
-                    </div>
-                    <div className="info-text">
-                      <h4>Phone</h4>
-                      <p>+91 98765 43210</p>
-                      <p style={{fontSize: '0.85rem', color: '#a1a1aa', marginTop: '0.3rem'}}>Mon-Fri, 9AM-6PM IST</p>
-                    </div>
-                  </div>
-                  <div className="info-item">
-                    <div className="info-icon">
-                      <i className="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div className="info-text">
-                      <h4>Office</h4>
-                      <p>Digital City, India</p>
-                      <p style={{fontSize: '0.85rem', color: '#a1a1aa', marginTop: '0.3rem'}}>Remote & On-site Services</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <main>
+        <section className="contact-banner">
+          <div className="container contact-banner-content">
+            <div>
+              <p className="eyebrow">CONNECT WITH ABHINOVA</p>
+              <h1>Let your next chapter<br /><span>begin here.</span></h1>
+              <p>Have a question about admissions, courses, campus life, or student support? We would love to hear from you.</p>
             </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+        <section className="contact-section">
+          <div className="container contact-layout">
+            <div className="contact-form-panel">
+              <p className="eyebrow">SEND AN ENQUIRY</p>
+              <h2>We are here to help.</h2>
+              <p className="contact-intro">Share a few details and our admissions team will guide you through the next step.</p>
+              <form className="contact-form" onSubmit={handleSubmit}>
+                <label htmlFor="name">Full name<input type="text" id="name" name="name" placeholder="Your full name" required value={formData.name} onChange={handleChange} /></label>
+                <label htmlFor="email">Email address<input type="email" id="email" name="email" placeholder="you@example.com" required value={formData.email} onChange={handleChange} /></label>
+                <label htmlFor="service">Course of interest<select id="service" name="service" value={formData.service} onChange={handleChange}><option value="">Select a course</option><option value="BSC">BSC - Bachelor of Science</option><option value="BCA">BCA - Bachelor of Computer Applications</option><option value="BA">BA - Bachelor of Arts</option><option value="MBA">MBA - Master of Business Administration</option><option value="MCA">MCA - Master of Computer Applications</option></select></label>
+                <label htmlFor="message">Your question<textarea id="message" name="message" rows="5" placeholder="Tell us how we can help" required value={formData.message} onChange={handleChange}></textarea></label>
+                <button type="submit" className="submit-btn" disabled={submitting}>{submitting ? 'Sending...' : 'Send enquiry'} <i className="fas fa-arrow-right"></i></button>
+                {message && <p className="contact-status" role="status">{message}</p>}
+              </form>
+            </div>
+            <aside className="contact-details">
+              <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=900&h=620&fit=crop" alt="Abhinova Institute campus" />
+              <div className="contact-detail-list">
+                <div><i className="fas fa-envelope"></i><span><strong>Email us</strong>admissions@abhinovainstitute.edu</span></div>
+                <div><i className="fas fa-phone"></i><span><strong>Call admissions</strong>+91 98765 43210</span></div>
+                <div><i className="fas fa-location-dot"></i><span><strong>Visit campus</strong>Thane, Mumbai, Maharashtra</span></div>
+                <div><i className="fas fa-clock"></i><span><strong>Office hours</strong>Monday to Saturday, 9:00 AM - 5:00 PM</span></div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
       <Footer />
     </>
   );

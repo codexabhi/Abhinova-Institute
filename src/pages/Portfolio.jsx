@@ -71,7 +71,7 @@ const Portfolio = () => {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
-      navigate('/dashboard');
+      navigate('/admin');
     } catch (error) {
       console.error('Error saving portfolio:', error);
       alert('Error saving portfolio item');
@@ -208,7 +208,7 @@ const Portfolio = () => {
                       type="button" 
                       className="submit-btn"
                       style={{background: '#6c757d'}}
-                      onClick={() => navigate('/dashboard')}
+                      onClick={() => navigate('/admin')}
                     >
                       Cancel
                     </button>
