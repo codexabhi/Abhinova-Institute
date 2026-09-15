@@ -25,7 +25,7 @@ const Header = () => {
       <nav className="navbar navbar-expand-lg">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            <img src="/assetes/image/logo.png" alt="Codex Tech Solutions Logo" width="150" />
+            <img src="/assets/image/logo.png" alt="Codex Tech Solutions Logo" width="150" />
           </Link>
           <button
             className="navbar-toggler"

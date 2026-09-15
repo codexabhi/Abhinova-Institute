@@ -138,7 +138,7 @@ header.scrolled {
 
 /* Inner Page Hero */
 .inner-hero {
-  background: var(--dark-bg) url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1920&q=80') center/cover no-repeat;
+  background: var(--dark-bg) url('https://images.unsplash.com/photo-1547658719-da2b51169166?w=1920&q=80') center/cover no-repeat;
   min-height: 60vh;
   display: flex;
   align-items: center;

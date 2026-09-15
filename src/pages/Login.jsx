@@ -4,8 +4,8 @@ import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: 'admin@codex.com',
+    password: 'admin123'
   });
   const [error, setError] = useState('');
   const { login } = useAuth();
@@ -54,6 +54,9 @@ const Login = () => {
         boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
       }}>
         <h2 className="text-center mb-4" style={{color: '#fff'}}>Login</h2>
+        <p className="text-center mb-3" style={{color: '#FCE28E', fontSize: '0.9rem'}}>
+          Demo login: admin@codex.com / admin123
+        </p>
         {error && (
           <div className="alert alert-danger" role="alert">
             {error}
