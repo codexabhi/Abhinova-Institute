@@ -35,6 +35,8 @@ app.use(cors());
 app.use(express.json());
 
 const startServer = () => {
+  if (require.main !== module) return;
+
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
@@ -500,4 +502,6 @@ app.delete('/api/users/clear', async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
+module.exports = app;
 
