@@ -25,7 +25,7 @@ const Header = () => {
       <nav className="navbar navbar-expand-lg">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            <img src="/assets/image/logo.png" alt="Abhinova Institute" className="logo-img" />
+            <img src="/assets/image/logo-abhi.png" alt="Abhinova Institute" className="logo-img" />
           </Link>
           <button
             className="navbar-toggler"

@@ -61,6 +61,12 @@ const BCA = () => (
               <h3>Networking</h3>
               <p>Computer networks, security, and cloud computing basics.</p>
             </article>
+            <article className="course-card">
+              <div className="course-icon"><i className="fas fa-network-wired"></i></div>
+              <span className="course-code">CN</span>
+              <h3>Computer Networking</h3>
+              <p>Understand networking, protocols, security, and connectivity.</p>
+            </article>
           </div>
         </div>
       </section>

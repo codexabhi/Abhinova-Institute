@@ -61,6 +61,12 @@ const MCA = () => (
               <h3>Mobile Development</h3>
               <p>iOS, Android, cross-platform development, and app architecture.</p>
             </article>
+            <article className="course-card">
+              <div className="course-icon"><i className="fas fa-chart-bar"></i></div>
+              <span className="course-code">DS</span>
+              <h3>Data Science</h3>
+              <p>Data analysis, visualization, statistics, and machine learning.</p>
+            </article>
           </div>
         </div>
       </section>

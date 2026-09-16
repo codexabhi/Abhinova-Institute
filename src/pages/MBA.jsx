@@ -61,6 +61,12 @@ const MBA = () => (
               <h3>Operations</h3>
               <p>Supply chain management, logistics, and process optimization.</p>
             </article>
+            <article className="course-card">
+              <div className="course-icon"><i class="fas fa-chess"></i></div>
+              <span className="course-code">STR</span>
+              <h3>Strategy</h3>
+              <p>Strategic planning, competitive analysis, and organizational leadership.</p>
+            </article>
           </div>
         </div>
       </section>

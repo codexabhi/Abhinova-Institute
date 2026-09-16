@@ -61,6 +61,12 @@ const BSC = () => (
               <h3>Mathematics</h3>
               <p>Master abstract reasoning, problem-solving, and quantitative analysis.</p>
             </article>
+            <article className="course-card">
+              <div className="course-icon"><i class="fas fa-mountain"></i></div>
+              <span className="course-code">GEO</span>
+              <h3>Geology</h3>
+              <p>Study the Earth's physical structure, processes, and history.</p>
+            </article>
           </div>
         </div>
       </section>

@@ -4,9 +4,28 @@ import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+const DASHBOARD_STORAGE_KEY = 'abhinova-admin-dashboard-data';
+
+const getStoredDashboardData = () => {
+  try {
+    const storedData = JSON.parse(localStorage.getItem(DASHBOARD_STORAGE_KEY));
+
+    return {
+      students: Array.isArray(storedData?.students) ? storedData.students : [],
+      courses: Array.isArray(storedData?.courses) ? storedData.courses : [],
+      faculty: Array.isArray(storedData?.faculty) ? storedData.faculty : [],
+      events: Array.isArray(storedData?.events) ? storedData.events : [],
+      notices: Array.isArray(storedData?.notices) ? storedData.notices : []
+    };
+  } catch (error) {
+    return { students: [], courses: [], faculty: [], events: [], notices: [] };
+  }
+};
+
 const AdminDashboard = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const storedData = getStoredDashboardData();
   const [activeTab, setActiveTab] = useState('students');
   const [showForm, setShowForm] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
@@ -14,24 +33,24 @@ const AdminDashboard = () => {
 
   // Statistics
   const [stats, setStats] = useState({
-    students: 0,
-    courses: 0,
-    faculty: 0,
+    students: storedData.students.length,
+    courses: storedData.courses.length,
+    faculty: storedData.faculty.length,
     enquiries: 0,
-    notices: 0,
-    events: 0
+    notices: storedData.notices.length,
+    events: storedData.events.length
   });
 
   // Data arrays
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState(storedData.students);
 
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState(storedData.courses);
 
-  const [faculty, setFaculty] = useState([]);
+  const [faculty, setFaculty] = useState(storedData.faculty);
 
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(storedData.events);
 
-  const [notices, setNotices] = useState([]);
+  const [notices, setNotices] = useState(storedData.notices);
 
   const sidebarItems = [
     ['students', 'user-graduate', 'Students'],
@@ -46,6 +65,16 @@ const AdminDashboard = () => {
       navigate('/login');
     }
   }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    localStorage.setItem(DASHBOARD_STORAGE_KEY, JSON.stringify({
+      students,
+      courses,
+      faculty,
+      events,
+      notices
+    }));
+  }, [students, courses, faculty, events, notices]);
 
   const handleAdd = (tab) => {
     setEditingItem(null);

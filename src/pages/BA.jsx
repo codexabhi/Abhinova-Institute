@@ -61,6 +61,12 @@ const BA = () => (
               <h3>History</h3>
               <p>Explore past civilizations and their impact on the present.</p>
             </article>
+            <article className="course-card">
+              <div className="course-icon"><i class="fas fa-people-group"></i></div>
+              <span className="course-code">SOC</span>
+              <h3>Sociology</h3>
+              <p>Understand society, culture, social relationships, and institutions.</p>
+            </article>
           </div>
         </div>
       </section>
