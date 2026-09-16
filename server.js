@@ -169,7 +169,7 @@ app.get('/api/health', async (req, res) => {
 });
 
 // Auth Routes
-app.post('/api/auth/signup', async (req, res) => {
+app.post('/api/auth/signup', requireDatabase, async (req, res) => {
   try {
     const { name, email, password, enrolledProgram } = req.body;
     
