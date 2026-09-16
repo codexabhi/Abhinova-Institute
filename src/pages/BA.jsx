@@ -18,7 +18,7 @@ const BA = () => (
       <section className="intro-section">
         <div className="container intro-grid">
           <div className="intro-image">
-            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=900&h=700&fit=crop" alt="Indian students in liberal arts classroom" />
+            <img src="https://images.pexels.com/photos/3231358/pexels-photo-3231358.jpeg" alt="Indian students in liberal arts classroom" />
           </div>
           <div className="intro-copy">
             <p className="eyebrow">PROGRAMME OVERVIEW</p>
@@ -60,12 +60,6 @@ const BA = () => (
               <span className="course-code">HIS</span>
               <h3>History</h3>
               <p>Explore past civilizations and their impact on the present.</p>
-            </article>
-            <article className="course-card">
-              <div className="course-icon"><i class="fas fa-people-group"></i></div>
-              <span className="course-code">SOC</span>
-              <h3>Sociology</h3>
-              <p>Understand society, culture, social relationships, and institutions.</p>
             </article>
           </div>
         </div>

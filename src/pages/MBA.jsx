@@ -18,7 +18,7 @@ const MBA = () => (
       <section className="intro-section">
         <div className="container intro-grid">
           <div className="intro-image">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&h=700&fit=crop" alt="Indian business students in discussion" />
+            <img src="https://images.pexels.com/photos/33845767/pexels-photo-33845767.jpeg" alt="Indian business students in discussion" />
           </div>
           <div className="intro-copy">
             <p className="eyebrow">PROGRAMME OVERVIEW</p>
@@ -60,12 +60,6 @@ const MBA = () => (
               <span className="course-code">OPS</span>
               <h3>Operations</h3>
               <p>Supply chain management, logistics, and process optimization.</p>
-            </article>
-            <article className="course-card">
-              <div className="course-icon"><i class="fas fa-chess"></i></div>
-              <span className="course-code">STR</span>
-              <h3>Strategy</h3>
-              <p>Strategic planning, competitive analysis, and organizational leadership.</p>
             </article>
           </div>
         </div>

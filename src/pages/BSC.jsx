@@ -18,7 +18,7 @@ const BSC = () => (
       <section className="intro-section">
         <div className="container intro-grid">
           <div className="intro-image">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&h=700&fit=crop" alt="Indian science students in laboratory" />
+            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=900&h=700&fit=crop" alt="Indian science students working in a laboratory" />
           </div>
           <div className="intro-copy">
             <p className="eyebrow">PROGRAMME OVERVIEW</p>
@@ -66,6 +66,24 @@ const BSC = () => (
               <span className="course-code">GEO</span>
               <h3>Geology</h3>
               <p>Study the Earth's physical structure, processes, and history.</p>
+            </article>
+            <article className="course-card">
+              <div className="course-icon"><i class="fas fa-laptop-code"></i></div>
+              <span className="course-code">IT</span>
+              <h3>BSc IT</h3>
+              <p>Learn software, networks, databases, and digital technologies.</p>
+            </article>
+            <article className="course-card">
+              <div className="course-icon"><i class="fas fa-code"></i></div>
+              <span className="course-code">CS</span>
+              <h3>BSc CS</h3>
+              <p>Explore programming, algorithms, AI, and modern computing.</p>
+            </article>
+            <article className="course-card">
+              <div className="course-icon"><i class="fas fa-microscope"></i></div>
+              <span className="course-code">MB</span>
+              <h3>BSc Microbiology</h3>
+              <p>Study microorganisms, biology, health, and biotechnology applications.</p>
             </article>
           </div>
         </div>

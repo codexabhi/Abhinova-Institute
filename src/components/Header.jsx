@@ -57,6 +57,7 @@ const Header = () => {
                     <li><Link className="dropdown-item" to="/course/ba"><i className="fas fa-book-open"></i> BA</Link></li>
                     <li><Link className="dropdown-item" to="/course/mba"><i className="fas fa-chart-line"></i> MBA</Link></li>
                     <li><Link className="dropdown-item" to="/course/mca"><i className="fas fa-microchip"></i> MCA</Link></li>
+                    <li><Link className="dropdown-item" to="/course/bcom"><i className="fas fa-calculator"></i> BCom</Link></li>
                 </ul>
               </li>
               <li className="nav-item">

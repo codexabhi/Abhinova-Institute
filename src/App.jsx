@@ -15,6 +15,7 @@ import BCA from './pages/BCA';
 import BA from './pages/BA';
 import MBA from './pages/MBA';
 import MCA from './pages/MCA';
+import BCom from './pages/BCom';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/course/ba" element={<BA />} />
           <Route path="/course/mba" element={<MBA />} />
           <Route path="/course/mca" element={<MCA />} />
+          <Route path="/course/bcom" element={<BCom />} />
           <Route path="/why-choose-us" element={<WhyChooseUs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

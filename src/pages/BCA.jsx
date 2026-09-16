@@ -18,7 +18,7 @@ const BCA = () => (
       <section className="intro-section">
         <div className="container intro-grid">
           <div className="intro-image">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&h=700&fit=crop" alt="Indian students learning programming" />
+            <img src="https://plus.unsplash.com/premium_photo-1663075847012-c781e0d194ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y29tcHV0ZXIlMjBMYWJ8ZW58MHx8MHx8fDA%3D" alt="Indian students collaborating on a software project" />
           </div>
           <div className="intro-copy">
             <p className="eyebrow">PROGRAMME OVERVIEW</p>
@@ -60,12 +60,6 @@ const BCA = () => (
               <span className="course-code">NET</span>
               <h3>Networking</h3>
               <p>Computer networks, security, and cloud computing basics.</p>
-            </article>
-            <article className="course-card">
-              <div className="course-icon"><i className="fas fa-network-wired"></i></div>
-              <span className="course-code">CN</span>
-              <h3>Computer Networking</h3>
-              <p>Understand networking, protocols, security, and connectivity.</p>
             </article>
           </div>
         </div>

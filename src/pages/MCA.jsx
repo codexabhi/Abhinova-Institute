@@ -5,7 +5,7 @@ const MCA = () => (
   <>
     <Header />
     <main>
-      <section className="inner-hero institute-inner-hero" style={{background: 'var(--dark-bg) url(https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1920&q=80) center/cover no-repeat'}}>
+      <section className="inner-hero institute-inner-hero" style={{background: 'var(--dark-bg) url(https://images.pexels.com/photos/5380792/pexels-photo-5380792.jpeg) center/cover no-repeat'}}>
         <div className="hero-content">
           <div className="hero-text">
             <p className="eyebrow">MASTER OF COMPUTER APPLICATIONS</p>
@@ -18,7 +18,7 @@ const MCA = () => (
       <section className="intro-section">
         <div className="container intro-grid">
           <div className="intro-image">
-            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=900&h=700&fit=crop" alt="Indian MCA students working on advanced projects" />
+            <img src="https://images.pexels.com/photos/37563954/pexels-photo-37563954.jpeg" alt="Indian MCA students working on advanced projects" />
           </div>
           <div className="intro-copy">
             <p className="eyebrow">PROGRAMME OVERVIEW</p>
@@ -60,12 +60,6 @@ const MCA = () => (
               <span className="course-code">MOB</span>
               <h3>Mobile Development</h3>
               <p>iOS, Android, cross-platform development, and app architecture.</p>
-            </article>
-            <article className="course-card">
-              <div className="course-icon"><i className="fas fa-chart-bar"></i></div>
-              <span className="course-code">DS</span>
-              <h3>Data Science</h3>
-              <p>Data analysis, visualization, statistics, and machine learning.</p>
             </article>
           </div>
         </div>
