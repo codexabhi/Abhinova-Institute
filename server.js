@@ -43,7 +43,7 @@ const startServer = () => {
 };
 
 // MongoDB Connection
-const mongoConnection = mongoose.connect(MONGODB_URI, {
+const mongoConnection = MONGODB_URI ? mongoose.connect(MONGODB_URI, {
   serverSelectionTimeoutMS: 10000,
   connectTimeoutMS: 10000
 })
@@ -66,7 +66,9 @@ const mongoConnection = mongoose.connect(MONGODB_URI, {
     console.error('MongoDB connection error:', err.message);
     console.log('Starting server in demo-auth fallback mode...');
     startServer();
-  });
+    throw err;
+  })
+: Promise.reject(new Error('MONGODB_URI is not configured'));
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -156,6 +158,15 @@ const requireDatabase = async (req, res, next) => {
     res.status(503).json({ message: 'Shared database is unavailable' });
   }
 };
+
+app.get('/api/health', async (req, res) => {
+  try {
+    await mongoConnection;
+    res.json({ api: 'ok', database: 'connected' });
+  } catch (error) {
+    res.status(503).json({ api: 'ok', database: ' unavailable', message: 'Configure MONGODB_URI in the deployment environment' });
+  }
+});
 
 // Auth Routes
 app.post('/api/auth/signup', async (req, res) => {
