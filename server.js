@@ -43,7 +43,7 @@ const startServer = () => {
 };
 
 // MongoDB Connection
-mongoose.connect(MONGODB_URI, {
+const mongoConnection = mongoose.connect(MONGODB_URI, {
   serverSelectionTimeoutMS: 10000,
   connectTimeoutMS: 10000
 })
@@ -147,6 +147,15 @@ const dashboardDataSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const DashboardData = mongoose.model('DashboardData', dashboardDataSchema);
+
+const requireDatabase = async (req, res, next) => {
+  try {
+    await mongoConnection;
+    next();
+  } catch (error) {
+    res.status(503).json({ message: 'Shared database is unavailable' });
+  }
+};
 
 // Auth Routes
 app.post('/api/auth/signup', async (req, res) => {
@@ -403,6 +412,8 @@ app.delete('/api/tasks/:id', authenticateToken, async (req, res) => {
 });
 
 // Admin dashboard data
+app.use('/api/dashboard-data', requireDatabase);
+
 app.get('/api/dashboard-data', authenticateToken, async (req, res) => {
   try {
     const dashboardData = await DashboardData.findOne({ ownerKey: req.user.userId }).lean();

@@ -35,24 +35,24 @@ const AdminDashboard = () => {
 
   // Statistics
   const [stats, setStats] = useState({
-    students: storedData.students.length,
-    courses: storedData.courses.length,
-    faculty: storedData.faculty.length,
+    students: 0,
+    courses: 0,
+    faculty: 0,
     enquiries: 0,
-    notices: storedData.notices.length,
-    events: storedData.events.length
+    notices: 0,
+    events: 0
   });
 
   // Data arrays
-  const [students, setStudents] = useState(storedData.students);
+  const [students, setStudents] = useState([]);
 
-  const [courses, setCourses] = useState(storedData.courses);
+  const [courses, setCourses] = useState([]);
 
-  const [faculty, setFaculty] = useState(storedData.faculty);
+  const [faculty, setFaculty] = useState([]);
 
-  const [events, setEvents] = useState(storedData.events);
+  const [events, setEvents] = useState([]);
 
-  const [notices, setNotices] = useState(storedData.notices);
+  const [notices, setNotices] = useState([]);
 
   const sidebarItems = [
     ['students', 'user-graduate', 'Students'],
@@ -77,27 +77,27 @@ const AdminDashboard = () => {
           headers: { Authorization: `Bearer ${token}` }
         });
         const remoteData = response.data;
+        const dashboardData = remoteData || storedData;
 
-        if (remoteData) {
-          setStudents(remoteData.students || []);
-          setCourses(remoteData.courses || []);
-          setFaculty(remoteData.faculty || []);
-          setEvents(remoteData.events || []);
-          setNotices(remoteData.notices || []);
-          setStats((currentStats) => ({
-            ...currentStats,
-            students: (remoteData.students || []).length,
-            courses: (remoteData.courses || []).length,
-            faculty: (remoteData.faculty || []).length,
-            events: (remoteData.events || []).length,
-            notices: (remoteData.notices || []).length
-          }));
-        }
+        setStudents(dashboardData.students || []);
+        setCourses(dashboardData.courses || []);
+        setFaculty(dashboardData.faculty || []);
+        setEvents(dashboardData.events || []);
+        setNotices(dashboardData.notices || []);
+        setStats((currentStats) => ({
+          ...currentStats,
+          students: (dashboardData.students || []).length,
+          courses: (dashboardData.courses || []).length,
+          faculty: (dashboardData.faculty || []).length,
+          events: (dashboardData.events || []).length,
+          notices: (dashboardData.notices || []).length
+        }));
       } catch (error) {
         console.error('Unable to load shared dashboard data:', error);
-      } finally {
-        setDataLoaded(true);
+        return;
       }
+
+      setDataLoaded(true);
     };
 
     loadDashboardData();
