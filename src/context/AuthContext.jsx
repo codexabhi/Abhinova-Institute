@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    // Use the server demo account when the API is available so data is shared across devices.
+    // Use the server demo account so dashboard data is shared across devices.
     if (email === 'admin@codex.com' && password === 'admin123') {
       try {
         const response = await api.post('/auth/login', { email, password });
@@ -54,13 +54,10 @@ export const AuthProvider = ({ children }) => {
         setUser(response.data.user);
         return { success: true };
       } catch (error) {
-        // Keep demo access available when the local API server is offline.
-        const demoToken = 'demo-token-' + Date.now();
-        const demoUser = { name: 'Admin User', email, role: 'admin' };
-        localStorage.setItem('token', demoToken);
-        setToken(demoToken);
-        setUser(demoUser);
-        return { success: true };
+        return {
+          success: false,
+          message: 'Unable to connect to the shared server. Start the API server and try again.'
+        };
       }
     }
 
