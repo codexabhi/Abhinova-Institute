@@ -5,28 +5,9 @@ import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-const DASHBOARD_STORAGE_KEY = 'abhinova-admin-dashboard-data';
-
-const getStoredDashboardData = () => {
-  try {
-    const storedData = JSON.parse(localStorage.getItem(DASHBOARD_STORAGE_KEY));
-
-    return {
-      students: Array.isArray(storedData?.students) ? storedData.students : [],
-      courses: Array.isArray(storedData?.courses) ? storedData.courses : [],
-      faculty: Array.isArray(storedData?.faculty) ? storedData.faculty : [],
-      events: Array.isArray(storedData?.events) ? storedData.events : [],
-      notices: Array.isArray(storedData?.notices) ? storedData.notices : []
-    };
-  } catch (error) {
-    return { students: [], courses: [], faculty: [], events: [], notices: [] };
-  }
-};
-
 const AdminDashboard = () => {
   const { user, token, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-  const storedData = getStoredDashboardData();
   const [dataLoaded, setDataLoaded] = useState(false);
   const [activeTab, setActiveTab] = useState('students');
   const [showForm, setShowForm] = useState(false);
@@ -77,7 +58,13 @@ const AdminDashboard = () => {
           headers: { Authorization: `Bearer ${token}` }
         });
         const remoteData = response.data;
-        const dashboardData = remoteData || storedData;
+        const dashboardData = remoteData || {
+          students: [],
+          courses: [],
+          faculty: [],
+          events: [],
+          notices: []
+        };
 
         setStudents(dashboardData.students || []);
         setCourses(dashboardData.courses || []);
@@ -107,15 +94,11 @@ const AdminDashboard = () => {
     if (!dataLoaded) return;
 
     const dashboardData = { students, courses, faculty, events, notices };
-    localStorage.setItem(DASHBOARD_STORAGE_KEY, JSON.stringify(dashboardData));
-
-    if (token) {
-      axios.put('/api/dashboard-data', dashboardData, {
-        headers: { Authorization: `Bearer ${token}` }
-      }).catch((error) => {
-        console.error('Unable to save shared dashboard data:', error);
-      });
-    }
+    axios.put('/api/dashboard-data', dashboardData, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).catch((error) => {
+      console.error('Unable to save shared dashboard data:', error);
+    });
   }, [dataLoaded, token, students, courses, faculty, events, notices]);
 
   const handleAdd = (tab) => {
