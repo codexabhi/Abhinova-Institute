@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
@@ -23,9 +24,10 @@ const getStoredDashboardData = () => {
 };
 
 const AdminDashboard = () => {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, token, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const storedData = getStoredDashboardData();
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [activeTab, setActiveTab] = useState('students');
   const [showForm, setShowForm] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
@@ -67,14 +69,54 @@ const AdminDashboard = () => {
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    localStorage.setItem(DASHBOARD_STORAGE_KEY, JSON.stringify({
-      students,
-      courses,
-      faculty,
-      events,
-      notices
-    }));
-  }, [students, courses, faculty, events, notices]);
+    if (!isAuthenticated || !token) return;
+
+    const loadDashboardData = async () => {
+      try {
+        const response = await axios.get('/api/dashboard-data', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const remoteData = response.data;
+
+        if (remoteData) {
+          setStudents(remoteData.students || []);
+          setCourses(remoteData.courses || []);
+          setFaculty(remoteData.faculty || []);
+          setEvents(remoteData.events || []);
+          setNotices(remoteData.notices || []);
+          setStats((currentStats) => ({
+            ...currentStats,
+            students: (remoteData.students || []).length,
+            courses: (remoteData.courses || []).length,
+            faculty: (remoteData.faculty || []).length,
+            events: (remoteData.events || []).length,
+            notices: (remoteData.notices || []).length
+          }));
+        }
+      } catch (error) {
+        console.error('Unable to load shared dashboard data:', error);
+      } finally {
+        setDataLoaded(true);
+      }
+    };
+
+    loadDashboardData();
+  }, [isAuthenticated, token]);
+
+  useEffect(() => {
+    if (!dataLoaded) return;
+
+    const dashboardData = { students, courses, faculty, events, notices };
+    localStorage.setItem(DASHBOARD_STORAGE_KEY, JSON.stringify(dashboardData));
+
+    if (token) {
+      axios.put('/api/dashboard-data', dashboardData, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).catch((error) => {
+        console.error('Unable to save shared dashboard data:', error);
+      });
+    }
+  }, [dataLoaded, token, students, courses, faculty, events, notices]);
 
   const handleAdd = (tab) => {
     setEditingItem(null);

@@ -45,18 +45,23 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    // Demo mode for local development without backend
+    // Use the server demo account when the API is available so data is shared across devices.
     if (email === 'admin@codex.com' && password === 'admin123') {
-      const demoToken = 'demo-token-' + Date.now();
-      const demoUser = {
-        name: 'Admin User',
-        email: email,
-        role: 'admin'
-      };
-      localStorage.setItem('token', demoToken);
-      setToken(demoToken);
-      setUser(demoUser);
-      return { success: true };
+      try {
+        const response = await api.post('/auth/login', { email, password });
+        localStorage.setItem('token', response.data.token);
+        setToken(response.data.token);
+        setUser(response.data.user);
+        return { success: true };
+      } catch (error) {
+        // Keep demo access available when the local API server is offline.
+        const demoToken = 'demo-token-' + Date.now();
+        const demoUser = { name: 'Admin User', email, role: 'admin' };
+        localStorage.setItem('token', demoToken);
+        setToken(demoToken);
+        setUser(demoUser);
+        return { success: true };
+      }
     }
 
     // Try backend API if not demo credentials

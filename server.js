@@ -135,6 +135,17 @@ const taskSchema = new mongoose.Schema({
 
 const Task = mongoose.model('Task', taskSchema);
 
+const dashboardDataSchema = new mongoose.Schema({
+  ownerKey: { type: String, required: true, unique: true },
+  students: { type: [mongoose.Schema.Types.Mixed], default: [] },
+  courses: { type: [mongoose.Schema.Types.Mixed], default: [] },
+  faculty: { type: [mongoose.Schema.Types.Mixed], default: [] },
+  events: { type: [mongoose.Schema.Types.Mixed], default: [] },
+  notices: { type: [mongoose.Schema.Types.Mixed], default: [] }
+}, { timestamps: true });
+
+const DashboardData = mongoose.model('DashboardData', dashboardDataSchema);
+
 // Auth Routes
 app.post('/api/auth/signup', async (req, res) => {
   try {
@@ -386,6 +397,42 @@ app.delete('/api/tasks/:id', authenticateToken, async (req, res) => {
     res.json({ message: 'Task deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Unable to delete task', error: error.message });
+  }
+});
+
+// Admin dashboard data
+app.get('/api/dashboard-data', authenticateToken, async (req, res) => {
+  try {
+    const dashboardData = await DashboardData.findOne({ ownerKey: req.user.userId }).lean();
+    res.json(dashboardData ? {
+      students: dashboardData.students,
+      courses: dashboardData.courses,
+      faculty: dashboardData.faculty,
+      events: dashboardData.events,
+      notices: dashboardData.notices
+    } : null);
+  } catch (error) {
+    res.status(500).json({ message: 'Unable to load dashboard data', error: error.message });
+  }
+});
+
+app.put('/api/dashboard-data', authenticateToken, async (req, res) => {
+  try {
+    const dashboardData = await DashboardData.findOneAndUpdate(
+      { ownerKey: req.user.userId },
+      {
+        ownerKey: req.user.userId,
+        students: Array.isArray(req.body.students) ? req.body.students : [],
+        courses: Array.isArray(req.body.courses) ? req.body.courses : [],
+        faculty: Array.isArray(req.body.faculty) ? req.body.faculty : [],
+        events: Array.isArray(req.body.events) ? req.body.events : [],
+        notices: Array.isArray(req.body.notices) ? req.body.notices : []
+      },
+      { new: true, upsert: true, runValidators: true }
+    ).lean();
+    res.json(dashboardData);
+  } catch (error) {
+    res.status(500).json({ message: 'Unable to save dashboard data', error: error.message });
   }
 });
 
