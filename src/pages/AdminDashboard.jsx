@@ -148,6 +148,10 @@ const AdminDashboard = () => {
           <h2>Admin Panel</h2>
         </div>
         <nav className="sidebar-nav">
+          <button onClick={() => { setShowForm(false); setActiveTab('overview'); }} className="sidebar-btn">
+            <i className="fas fa-home"></i> Dashboard
+          </button>
+          <hr></hr>
           {sidebarItems.map(([tab, icon, label]) => (
             <button key={tab} className={activeTab === tab ? 'active' : ''} onClick={() => setActiveTab(tab)}>
               <i className={`fas fa-${icon}`}></i> {label}
@@ -155,9 +159,6 @@ const AdminDashboard = () => {
           ))}
         </nav>
         <div className="sidebar-footer">
-          <button onClick={() => { setShowForm(false); setActiveTab('overview'); }} className="sidebar-btn">
-            <i className="fas fa-home"></i> Dashboard
-          </button>
           <button onClick={() => { logout(); navigate('/'); }} className="sidebar-btn logout">
             <i className="fas fa-sign-out-alt"></i> Logout
           </button>

@@ -2029,9 +2029,12 @@ footer {
   color: #000;
 }
 
-.stat-content h3 {
+.stat-content strong {
+  display: block;
   font-size: 2rem;
-  color: var(--primary-color);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
   margin-bottom: 0.3rem;
 }
 
