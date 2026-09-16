@@ -2353,6 +2353,42 @@ footer {
   .admin-stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .admin-overview {
+    padding: 1.5rem 1rem;
+  }
+
+  .admin-overview h2 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  .admin-stat-card {
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 1rem;
+  }
+
+  .stat-icon {
+    flex: 0 0 48px;
+    font-size: 1.15rem;
+    height: 48px;
+    width: 48px;
+  }
+
+  .stat-content {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .stat-content strong {
+    font-size: 1.6rem;
+  }
+
+  .stat-content span {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+  }
   
   .admin-tabs {
     flex-direction: column;
@@ -2372,6 +2408,12 @@ footer {
   .admin-form-content {
     margin: 1rem;
     padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
   }
 }
 
