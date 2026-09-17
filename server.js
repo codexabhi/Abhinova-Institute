@@ -43,10 +43,12 @@ const startServer = () => {
 };
 
 // MongoDB Connection
-const mongoConnection = MONGODB_URI ? mongoose.connect(MONGODB_URI, {
+const mongoOptions = {
   serverSelectionTimeoutMS: 10000,
   connectTimeoutMS: 10000
-})
+};
+
+let mongoConnection = MONGODB_URI ? mongoose.connect(MONGODB_URI, mongoOptions)
   .then(async () => {
     console.log('MongoDB connected successfully');
 
@@ -69,6 +71,15 @@ const mongoConnection = MONGODB_URI ? mongoose.connect(MONGODB_URI, {
     return null;
   })
 : Promise.resolve(null);
+
+const ensureDatabaseConnection = async () => {
+  if (!MONGODB_URI) throw new Error('MONGODB_URI is not configured');
+  if (!mongoConnection || mongoose.connection.readyState === 0) {
+    mongoConnection = mongoose.connect(MONGODB_URI, mongoOptions);
+  }
+  await mongoConnection;
+  if (mongoose.connection.readyState !== 1) throw new Error('MongoDB connection is not ready');
+};
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -164,10 +175,7 @@ const DashboardData = mongoose.model('DashboardData', dashboardDataSchema);
 
 const requireDatabase = async (req, res, next) => {
   try {
-    await mongoConnection;
-    if (mongoose.connection.readyState !== 1) {
-      return res.status(503).json({ message: 'Shared database is unavailable' });
-    }
+    await ensureDatabaseConnection();
     next();
   } catch (error) {
     res.status(503).json({ message: 'Shared database is unavailable' });
@@ -176,7 +184,7 @@ const requireDatabase = async (req, res, next) => {
 
 app.get('/api/health', async (req, res) => {
   try {
-    await mongoConnection;
+    await ensureDatabaseConnection();
     res.json({ api: 'ok', database: 'connected' });
   } catch (error) {
     res.status(503).json({ api: 'ok', database: ' unavailable', message: 'Configure MONGODB_URI in the deployment environment' });
