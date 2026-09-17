@@ -27,7 +27,7 @@ const Portfolio = () => {
   const fetchPortfolioItem = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/api/portfolio`, {
+      const response = await axios.get('/api/portfolio', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const item = response.data.find(p => p._id === id);
@@ -63,11 +63,11 @@ const Portfolio = () => {
       };
 
       if (id) {
-        await axios.put(`http://localhost:5000/api/portfolio/${id}`, data, {
+        await axios.put(`/api/portfolio/${id}`, data, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        await axios.post('http://localhost:5000/api/portfolio', data, {
+        await axios.post('/api/portfolio', data, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }

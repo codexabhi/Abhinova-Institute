@@ -13,7 +13,7 @@ const Contact = () => {
     setSubmitting(true);
     setMessage('');
     try {
-      await axios.post('http://localhost:5000/api/contact', formData);
+      await axios.post('/api/contact', formData);
       setMessage('Thank you. Our admissions team will get back to you soon.');
       setFormData({ name: '', email: '', service: '', message: '' });
     } catch {

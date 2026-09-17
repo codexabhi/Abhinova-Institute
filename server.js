@@ -66,9 +66,9 @@ const mongoConnection = MONGODB_URI ? mongoose.connect(MONGODB_URI, {
     console.error('MongoDB connection error:', err.message);
     console.log('Starting server in demo-auth fallback mode...');
     startServer();
-    throw err;
+    return null;
   })
-: Promise.reject(new Error('MONGODB_URI is not configured'));
+: Promise.resolve(null);
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -153,6 +153,9 @@ const DashboardData = mongoose.model('DashboardData', dashboardDataSchema);
 const requireDatabase = async (req, res, next) => {
   try {
     await mongoConnection;
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ message: 'Shared database is unavailable' });
+    }
     next();
   } catch (error) {
     res.status(503).json({ message: 'Shared database is unavailable' });
