@@ -56,7 +56,9 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
         return {
           success: false,
-          message: 'Unable to connect to the shared server. Start the API server and try again.'
+          message: error.response?.data?.message || (error.code === 'ECONNABORTED' || !error.response
+            ? 'Unable to connect to the shared server. Please try again shortly.'
+            : 'Login failed')
         };
       }
     }
