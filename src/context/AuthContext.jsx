@@ -105,6 +105,20 @@ export const AuthProvider = ({ children }) => {
 
   const updateUser = (updatedUser) => setUser(updatedUser);
 
+  const updateProfile = async (profile) => {
+    const response = await api.put('/user/profile', profile, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    setUser(response.data);
+    return response.data;
+  };
+
+  const changePassword = async (currentPassword, newPassword) => {
+    await api.put('/user/password', { currentPassword, newPassword }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
     setToken(null);
@@ -118,6 +132,8 @@ export const AuthProvider = ({ children }) => {
     login,
     signup,
     updateUser,
+    updateProfile,
+    changePassword,
     logout,
     isAuthenticated: !!user
   };

@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import AccountMenu from '../components/AccountMenu';
 
 const AdminDashboard = () => {
-  const { user, token, isAuthenticated, logout } = useAuth();
+  const { token, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [dataLoaded, setDataLoaded] = useState(false);
   const [activeTab, setActiveTab] = useState('students');
@@ -212,15 +211,11 @@ const AdminDashboard = () => {
             </button>
           ))}
         </nav>
-        <div className="sidebar-footer">
-          <button onClick={() => { logout(); navigate('/'); }} className="sidebar-btn logout">
-            <i className="fas fa-sign-out-alt"></i> Logout
-          </button>
-        </div>
       </aside>
 
       {/* Main Content */}
       <main className="admin-main">
+        <div className="admin-topbar"><span>Institute administration</span><AccountMenu /></div>
         <div className="admin-content">
 
           {/* Form Modal */}

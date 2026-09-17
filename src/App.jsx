@@ -16,6 +16,7 @@ import BA from './pages/BA';
 import MBA from './pages/MBA';
 import MCA from './pages/MCA';
 import BCom from './pages/BCom';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/portfolio/edit/:id" element={<Portfolio />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </AuthProvider>

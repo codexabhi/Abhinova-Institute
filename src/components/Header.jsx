@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
-  const { user, logout, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,11 +13,6 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
 
   return (
     <header id="navbar" className={scrolled ? 'scrolled' : ''}>
@@ -70,12 +64,7 @@ const Header = () => {
                 <Link className="nav-link" to="/contact">Contact</Link>
               </li>
             </ul>
-            {isAuthenticated ? (
-              <>
-                <Link to="/admin" className="cta-btn">Dashboard</Link>
-                <button onClick={handleLogout} className="cta-btn ms-2">Logout</button>
-              </>
-            ) : (
+            {!isAuthenticated && (
               <>
                 <Link to="/login" className="cta-btn">Log In</Link>
                 <Link to="/signup" className="cta-btn ms-2">Sign Up</Link>

@@ -83,6 +83,18 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+const demoCredentialSchema = new mongoose.Schema({
+  key: { type: String, unique: true, default: 'admin' },
+  password: { type: String, required: true }
+});
+const DemoCredential = mongoose.model('DemoCredential', demoCredentialSchema);
+
+const getDemoPassword = async () => {
+  if (mongoose.connection.readyState !== 1) return DEMO_PASSWORD;
+  const credential = await DemoCredential.findOne({ key: 'admin' }).lean();
+  return credential?.password || DEMO_PASSWORD;
+};
+
 // Portfolio Schema
 const portfolioSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -214,12 +226,16 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     const normalizedEmail = String(email || '').trim().toLowerCase();
 
-    if (normalizedEmail === DEMO_EMAIL.toLowerCase() && password === DEMO_PASSWORD) {
-      const token = jwt.sign({ userId: 'demo-user' }, process.env.JWT_SECRET || 'your-secret-key', { expiresIn: '1h' });
-      return res.json({
-        token,
-        user: getDemoUser()
-      });
+    if (normalizedEmail === DEMO_EMAIL.toLowerCase()) {
+      const demoPassword = await getDemoPassword();
+      const validDemoPassword = demoPassword === DEMO_PASSWORD
+        ? password === DEMO_PASSWORD
+        : await bcrypt.compare(password, demoPassword);
+      if (validDemoPassword) {
+        const token = jwt.sign({ userId: 'demo-user' }, process.env.JWT_SECRET || 'your-secret-key', { expiresIn: '1h' });
+        return res.json({ token, user: getDemoUser() });
+      }
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     if (mongoose.connection.readyState !== 1) {
@@ -515,6 +531,42 @@ app.put('/api/user/profile', authenticateToken, async (req, res) => {
   } catch (error) {
     if (error.code === 11000) return res.status(400).json({ message: 'That email address is already in use' });
     res.status(400).json({ message: 'Unable to update profile', error: error.message });
+  }
+});
+
+app.put('/api/user/password', authenticateToken, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword || newPassword.length < 6) {
+      return res.status(400).json({ message: 'Enter a current password and a new password of at least 6 characters' });
+    }
+
+    if (req.user.userId === 'demo-user') {
+      if (mongoose.connection.readyState !== 1) {
+        return res.status(503).json({ message: 'Shared database is unavailable; password changes require the shared database' });
+      }
+      const storedPassword = await getDemoPassword();
+      const validCurrentPassword = storedPassword === DEMO_PASSWORD
+        ? currentPassword === DEMO_PASSWORD
+        : await bcrypt.compare(currentPassword, storedPassword);
+      if (!validCurrentPassword) return res.status(400).json({ message: 'Current password is incorrect' });
+      await DemoCredential.findOneAndUpdate(
+        { key: 'admin' },
+        { key: 'admin', password: await bcrypt.hash(newPassword, 10) },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+      return res.json({ message: 'Password changed successfully' });
+    }
+
+    const user = await User.findById(req.user.userId);
+    if (!user || !(await bcrypt.compare(currentPassword, user.password))) {
+      return res.status(400).json({ message: 'Current password is incorrect' });
+    }
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+    res.json({ message: 'Password changed successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Unable to change password', error: error.message });
   }
 });
 
