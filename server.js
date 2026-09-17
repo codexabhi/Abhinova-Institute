@@ -195,13 +195,14 @@ app.get('/api/health', async (req, res) => {
 app.post('/api/auth/signup', requireDatabase, async (req, res) => {
   try {
     const { name, email, password, enrolledProgram } = req.body;
+    const normalizedEmail = String(email || '').trim().toLowerCase();
     
-    console.log('Signup request received:', { name, email });
+    console.log('Signup request received:', { name, email: normalizedEmail });
     
     // Check if user exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
-      console.log('User already exists:', email);
+      console.log('User already exists:', normalizedEmail);
       return res.status(400).json({ message: 'User already exists' });
     }
     
@@ -211,7 +212,7 @@ app.post('/api/auth/signup', requireDatabase, async (req, res) => {
     // Create user
     const user = new User({
       name,
-      email,
+      email: normalizedEmail,
       password: hashedPassword,
       enrolledProgram: enrolledProgram || 'web-applications'
     });
@@ -246,9 +247,7 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    if (mongoose.connection.readyState !== 1) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
+    await ensureDatabaseConnection();
 
     const user = await User.findOne({ email: normalizedEmail });
     if (!user) {
