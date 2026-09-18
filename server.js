@@ -85,8 +85,13 @@ const DemoCredential = mongoose.model('DemoCredential', demoCredentialSchema);
 
 const getDemoPassword = async () => {
   if (mongoose.connection.readyState !== 1) return DEMO_PASSWORD;
-  const credential = await DemoCredential.findOne({ key: 'admin' }).lean();
-  return credential?.password || DEMO_PASSWORD;
+  try {
+    const credential = await DemoCredential.findOne({ key: 'admin' }).lean();
+    return credential?.password || DEMO_PASSWORD;
+  } catch (error) {
+    console.error('Demo credential lookup failed; using default demo password:', error.message);
+    return DEMO_PASSWORD;
+  }
 };
 
 // Portfolio Schema
@@ -179,6 +184,10 @@ app.post('/api/auth/signup', requireDatabase, async (req, res) => {
   try {
     const { name, email, password, enrolledProgram } = req.body;
     const normalizedEmail = String(email || '').trim().toLowerCase();
+
+    if (!String(name || '').trim() || !normalizedEmail || !String(password || '')) {
+      return res.status(400).json({ message: 'Name, email, and password are required' });
+    }
     
     console.log('Signup request received:', { name, email: normalizedEmail });
     
@@ -209,7 +218,10 @@ app.post('/api/auth/signup', requireDatabase, async (req, res) => {
     res.status(201).json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role, enrolledProgram: user.enrolledProgram, createdAt: user.createdAt } });
   } catch (error) {
     console.error('Signup error:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    if (error.code === 11000) {
+      return res.status(409).json({ message: 'User already exists' });
+    }
+    res.status(503).json({ message: 'Signup service is temporarily unavailable' });
   }
 });
 
@@ -246,7 +258,8 @@ app.post('/api/auth/login', async (req, res) => {
 
     res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role, enrolledProgram: user.enrolledProgram || (user.enrolledCourse === 'web-development' ? 'web-applications' : user.enrolledCourse), createdAt: user.createdAt } });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    console.error('Login error:', error);
+    res.status(503).json({ message: 'Authentication service is temporarily unavailable' });
   }
 });
 
