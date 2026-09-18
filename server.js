@@ -570,5 +570,7 @@ app.delete('/api/users/clear', async (req, res) => {
   }
 });
 
+startServer();
+
 module.exports = app;
 
