@@ -48,36 +48,19 @@ const mongoOptions = {
   connectTimeoutMS: 10000
 };
 
-let mongoConnection = MONGODB_URI ? mongoose.connect(MONGODB_URI, mongoOptions)
-  .then(async () => {
-    console.log('MongoDB connected successfully');
-
-    try {
-      const User = mongoose.model('User');
-      await User.collection.dropIndex('username_1');
-      console.log('Dropped problematic username_1 index');
-    } catch (error) {
-      if (error.code !== 26) {
-        console.log('No username index to drop or already cleaned');
-      }
-    }
-
-    startServer();
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err.message);
-    console.log('Starting server in demo-auth fallback mode...');
-    startServer();
-    return null;
-  })
-: Promise.resolve(null);
+let mongoConnection = null;
 
 const ensureDatabaseConnection = async () => {
   if (!MONGODB_URI) throw new Error('MONGODB_URI is not configured');
-  if (!mongoConnection || mongoose.connection.readyState === 0) {
-    mongoConnection = mongoose.connect(MONGODB_URI, mongoOptions);
+  if (mongoose.connection.readyState !== 1) {
+    if (!mongoConnection || mongoose.connection.readyState === 0) {
+      mongoConnection = mongoose.connect(MONGODB_URI, mongoOptions).catch((error) => {
+        mongoConnection = null;
+        throw error;
+      });
+    }
+    await mongoConnection;
   }
-  await mongoConnection;
   if (mongoose.connection.readyState !== 1) throw new Error('MongoDB connection is not ready');
 };
 
