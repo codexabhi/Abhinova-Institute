@@ -166,7 +166,11 @@ const requireDatabase = async (req, res, next) => {
     await ensureDatabaseConnection();
     next();
   } catch (error) {
-    res.status(503).json({ message: 'Shared database is unavailable' });
+    console.error('Database connection failed:', error.message);
+    const message = !MONGODB_URI
+      ? 'MONGODB_URI is not configured on the server'
+      : 'MongoDB is unreachable. Check the connection string and Atlas Network Access settings';
+    res.status(503).json({ message });
   }
 };
 
@@ -175,7 +179,14 @@ app.get('/api/health', async (req, res) => {
     await ensureDatabaseConnection();
     res.json({ api: 'ok', database: 'connected' });
   } catch (error) {
-    res.status(503).json({ api: 'ok', database: ' unavailable', message: 'Configure MONGODB_URI in the deployment environment' });
+    console.error('Health check database error:', error.message);
+    res.status(503).json({
+      api: 'ok',
+      database: 'unavailable',
+      message: !MONGODB_URI
+        ? 'MONGODB_URI is not configured on the server'
+        : 'MongoDB is unreachable. Check the connection string and Atlas Network Access settings'
+    });
   }
 });
 

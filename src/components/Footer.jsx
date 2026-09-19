@@ -10,7 +10,7 @@ const Footer = () => {
             <p>Learning with purpose, leading with confidence. A student-first community for meaningful higher education.</p>
             
           </div>
-          <div className="footer-section col-md-3">
+          <div className="footer-section col-md-3 col-6">
             <h3>Quick Links</h3>
             <ul className="footer-links">
               <li><Link to="/">Home</Link></li>
@@ -20,7 +20,7 @@ const Footer = () => {
               <li><Link to="/contact">Contact</Link></li>
             </ul>
           </div>
-          <div className="footer-section col-md-3">
+          <div className="footer-section col-md-3 col-6">
             <h3>Courses</h3>
             <ul className="footer-links">
               <li><Link to="/courses">BSC</Link></li>
@@ -33,8 +33,8 @@ const Footer = () => {
           <div className="footer-section col-md-3">
             <h3>Contact Info</h3>
             <ul className="footer-links footer-contact">
-              <li><i className="fas fa-envelope"></i> admissions@abhinovainstitute.edu</li>
-              <li><i className="fas fa-phone"></i> +91 98765 43210</li>
+              <li><i className="fas fa-envelope"></i> email@gmail.com</li>
+              <li><i className="fas fa-phone"></i> +91 8806968959</li>
               <li><i className="fas fa-map-marker-alt"></i> Thane, Mumbai</li>
             </ul>
             <div className="social-links">

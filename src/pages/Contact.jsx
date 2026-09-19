@@ -56,8 +56,8 @@ const Contact = () => {
             <aside className="contact-details">
               <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=900&h=620&fit=crop" alt="Indian students on a university campus" />
               <div className="contact-detail-list">
-                <div><i className="fas fa-envelope"></i><span><strong>Email us</strong>admissions@abhinovainstitute.edu</span></div>
-                <div><i className="fas fa-phone"></i><span><strong>Call admissions</strong>+91 98765 43210</span></div>
+                <div><i className="fas fa-envelope"></i><span><strong>Email us</strong>email@gmail.com</span></div>
+                <div><i className="fas fa-phone"></i><span><strong>Call admissions</strong>+91 8806968959</span></div>
                 <div><i className="fas fa-location-dot"></i><span><strong>Visit campus</strong>Thane, Mumbai, Maharashtra</span></div>
                 <div><i className="fas fa-clock"></i><span><strong>Office hours</strong>Monday to Saturday, 9:00 AM - 5:00 PM</span></div>
               </div>
